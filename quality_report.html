@@ -1,0 +1,207 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>数据质量报告</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #2c3e50; }
+                .summary { background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+                table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                th { background: #3498db; color: white; }
+                .high { color: #e74c3c; font-weight: bold; }
+                .medium { color: #f39c12; }
+                .low { color: #27ae60; }
+                .footer { margin-top: 30px; font-size: 12px; color: #7f8c8d; }
+            </style>
+        </head>
+        <body>
+            <h1>📊 数据质量报告</h1>
+            <div class="summary">
+                <h2>执行摘要</h2>
+                <p><strong>执行时间:</strong> 2026-06-11 21:22:57</p>
+                <p><strong>原始数据行数:</strong> 2005</p>
+                <p><strong>清洗后行数:</strong> 1985</p>
+                <p><strong>处理行数:</strong> 20</p>
+                <p><strong>检核规则数:</strong> 6</p>
+            </div>
+            
+            <h2>质量检核结果</h2>
+            <table>
+                <tr>
+                    <th>规则名称</th>
+                    <th>字段</th>
+                    <th>严重级别</th>
+                    <th>违反行数</th>
+                </tr>
+        
+                <tr>
+                    <td>VendorID非空</td>
+                    <td>VendorID</td>
+                    <td class="high">HIGH</td>
+                    <td>31</td>
+                </tr>
+            
+                <tr>
+                    <td>pickup_datetime非空</td>
+                    <td>pickup_datetime</td>
+                    <td class="high">HIGH</td>
+                    <td>15</td>
+                </tr>
+            
+                <tr>
+                    <td>trip_distance大于0</td>
+                    <td>trip_distance</td>
+                    <td class="medium">MEDIUM</td>
+                    <td>20</td>
+                </tr>
+            
+                <tr>
+                    <td>fare_amount非负</td>
+                    <td>fare_amount</td>
+                    <td class="high">HIGH</td>
+                    <td>10</td>
+                </tr>
+            
+                <tr>
+                    <td>passenger_count范围[1,6]</td>
+                    <td>passenger_count</td>
+                    <td class="medium">MEDIUM</td>
+                    <td>12</td>
+                </tr>
+            
+                <tr>
+                    <td>payment_type枚举值</td>
+                    <td>payment_type</td>
+                    <td class="medium">MEDIUM</td>
+                    <td>6</td>
+                </tr>
+            
+            </table>
+            
+            <h2>清洗后数据样例</h2>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>VendorID</th>
+      <th>pickup_datetime</th>
+      <th>dropoff_datetime</th>
+      <th>passenger_count</th>
+      <th>trip_distance</th>
+      <th>fare_amount</th>
+      <th>payment_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>2024-01-01 00:00:00</td>
+      <td>2024-01-01 00:32:00</td>
+      <td>1</td>
+      <td>6.699141</td>
+      <td>81.735233</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>2024-01-01 00:01:00</td>
+      <td>2024-01-01 00:12:00</td>
+      <td>2</td>
+      <td>0.671156</td>
+      <td>38.857097</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.0</td>
+      <td>2024-01-01 00:02:00</td>
+      <td>2024-01-01 00:41:00</td>
+      <td>4</td>
+      <td>7.951592</td>
+      <td>14.590030</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.0</td>
+      <td>2024-01-01 00:03:00</td>
+      <td>2024-01-01 01:02:00</td>
+      <td>5</td>
+      <td>6.385283</td>
+      <td>96.379383</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>2024-01-01 00:04:00</td>
+      <td>2024-01-01 00:36:00</td>
+      <td>3</td>
+      <td>1.229241</td>
+      <td>66.997191</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.0</td>
+      <td>2024-01-01 00:05:00</td>
+      <td>2024-01-01 00:23:00</td>
+      <td>3</td>
+      <td>10.354623</td>
+      <td>48.329455</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1.0</td>
+      <td>2024-01-01 00:06:00</td>
+      <td>2024-01-01 00:20:00</td>
+      <td>4</td>
+      <td>8.359111</td>
+      <td>42.788468</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2.0</td>
+      <td>2024-01-01 00:07:00</td>
+      <td>2024-01-01 00:27:00</td>
+      <td>2</td>
+      <td>12.873851</td>
+      <td>35.847007</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2.0</td>
+      <td>2024-01-01 00:08:00</td>
+      <td>2024-01-01 00:28:00</td>
+      <td>4</td>
+      <td>12.613133</td>
+      <td>98.237522</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2.0</td>
+      <td>2024-01-01 00:09:00</td>
+      <td>2024-01-01 01:07:00</td>
+      <td>1</td>
+      <td>2.854559</td>
+      <td>17.800990</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+            
+            <div class="footer">
+                <p>报告由 DataQualityEngine 自动生成 | 清洗后数据保存至 nyc_taxi_clean.csv</p>
+            </div>
+        </body>
+        </html>
+        
