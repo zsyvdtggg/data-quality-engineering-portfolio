@@ -78,20 +78,5 @@ SQL依赖解析：自动识别INSERT、CREATE、FROM、JOIN等语法
 
 可视化：生成血缘关系图
 
-text
-
----
-
-## 然后执行推送
-
-```bash
-cd Desktop\data_quality_project_A\project_b_lineage
-
-# 添加所有文件
-git add .
-
-# 提交
-git commit -m "feat: 完成项目B元数据血缘分析"
-
 # 推送到GitHub
 git push origin main
