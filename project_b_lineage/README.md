@@ -13,21 +13,47 @@
 - 量化评估变更风险
 - 输出影响分析报告
 
+## 数据模型
+
+本项目模拟数据仓库5层数据模型：
+
+| 表名 | 层级 | 说明 |
+|------|------|------|
+| ods_orders | ODS | 订单原始数据 |
+| dwd_orders | DWD | 订单明细数据 |
+| dws_customer_summary | DWS | 客户维度汇总 |
+| dws_product_summary | DWS | 商品维度汇总 |
+| ads_sales_report | ADS | 销售报表 |
+
+## 数据流转链路
+ods_orders (ODS)
+↓
+dwd_orders (DWD)
+↓
+├── dws_customer_summary (DWS)
+│ ↓
+└── dws_product_summary (DWS)
+↓
+ads_sales_report (ADS)
+
+text
+
 ## 项目结构
 project_b_lineage/
 ├── docs/
 │ ├── business_requirements.md
 │ └── technical_design.md
+├── scripts/
+│ ├── lineage_parser.py
+│ ├── lineage_builder.py
+│ ├── impact_analyzer.py
+│ └── run_lineage_analysis.py
 ├── sql/
 │ ├── 01_ods_orders.sql
 │ ├── 02_dwd_orders.sql
 │ ├── 03_dws_customer_summary.sql
 │ ├── 04_dws_product_summary.sql
 │ └── 05_ads_sales_report.sql
-├── scripts/
-│ ├── lineage_parser.py
-│ ├── lineage_builder.py
-│ └── impact_analyzer.py
 ├── output/
 │ ├── table_lineage.csv
 │ ├── column_lineage.csv
@@ -39,44 +65,31 @@ text
 
 ## 运行方式
 
+### 安装依赖
+
 ```bash
-cd project_b_lineage
 pip install pandas networkx matplotlib sqlparse
+执行分析
+bash
+cd project_b_lineage
 python scripts/lineage_builder.py
-输出示例
-表级血缘树
-text
-└── ods_orders (ODS)
-    └── dwd_orders (DWD)
-        ├── dws_customer_summary (DWS)
-        │   └── ads_sales_report (ADS)
-        └── dws_product_summary (DWS)
-            └── ads_sales_report (ADS)
+输出说明
+表级血缘数据 (table_lineage.csv)
+source_table	target_table	layer
+ods_orders	dwd_orders	DWD
+dwd_orders	dws_customer_summary	DWS
+dwd_orders	dws_product_summary	DWS
+字段级血缘数据 (column_lineage.csv)
+target_table	target_column	source_expression
+dwd_orders	order_id	order_id
+dws_customer_summary	total_amount	sum(order_amount)
 影响分析报告
 变更对象	受影响下游	风险等级	建议
 ods_orders	4	MEDIUM	在测试环境验证后执行
 dwd_orders	3	LOW	按正常变更流程处理
 技术栈
-Python 3.9+
-
-pandas：数据处理
-
-networkx：血缘图构建
-
-matplotlib：可视化
-
-sqlparse：SQL解析
-
-核心能力
-SQL依赖解析：自动识别INSERT、CREATE、FROM、JOIN等语法
-
-表级血缘：构建完整的数据流转链路
-
-字段级血缘：追踪字段级的依赖关系
-
-影响分析：评估变更风险，输出影响范围
-
-可视化：生成血缘关系图
-
-# 推送到GitHub
-git push origin main
+组件	技术	用途
+解析	sqlparse	SQL语句解析
+数据处理	pandas	血缘数据整理
+图模型	networkx	血缘关系图构建
+可视化	matplotlib	血缘图渲染
