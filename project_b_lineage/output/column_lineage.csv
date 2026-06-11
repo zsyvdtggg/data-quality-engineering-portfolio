@@ -1,0 +1,14 @@
+target_table,target_column,source_expression,source_tables
+dwd_orders,order_id,order_id,ods_orders
+dwd_orders,user_id,user_id,ods_orders
+dwd_orders,product_id,product_id,ods_orders
+dwd_orders,order_amount,order_amount,ods_orders
+dwd_orders,order_status_desc,case when order_status = 1 then '已完成' else '未完成' end,ods_orders
+dwd_orders,order_date,date(create_time),ods_orders
+dws_customer_summary,user_id,user_id,dwd_orders
+dws_customer_summary,order_count,count(*),dwd_orders
+dws_customer_summary,total_amount,sum(order_amount),dwd_orders
+dws_customer_summary,avg_amount,avg(order_amount),dwd_orders
+dws_product_summary,product_id,product_id,dwd_orders
+dws_product_summary,sales_count,count(*),dwd_orders
+dws_product_summary,sales_amount,sum(order_amount),dwd_orders
