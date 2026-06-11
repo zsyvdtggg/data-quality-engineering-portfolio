@@ -1,0 +1,48 @@
+======================================================================
+数据治理影响分析报告
+======================================================================
+
+【变更对象】: ods_orders
+  受影响下游表数量: 4
+  直接下游表: dwd_orders
+  风险等级: MEDIUM
+  建议: 建议在测试环境验证后执行，通知直接下游相关方
+
+【变更对象】: dwd_orders
+  受影响下游表数量: 3
+  直接下游表: dws_customer_summary, dws_product_summary
+  风险等级: LOW
+  建议: 影响范围可控，可按正常变更流程处理
+
+【变更对象】: dws_customer_summary
+  受影响下游表数量: 1
+  直接下游表: ads_sales_report
+  风险等级: LOW
+  建议: 影响范围可控，可按正常变更流程处理
+
+【变更对象】: dws_product_summary
+  受影响下游表数量: 1
+  直接下游表: ads_sales_report
+  风险等级: LOW
+  建议: 影响范围可控，可按正常变更流程处理
+
+----------------------------------------------------------------------
+字段级影响分析
+----------------------------------------------------------------------
+
+表 ods_orders 的字段被以下下游使用:
+  - dwd_orders.order_id ← order_id
+  - dwd_orders.user_id ← user_id
+  - dwd_orders.product_id ← product_id
+  - dwd_orders.order_amount ← order_amount
+  - dwd_orders.order_status_desc ← case when order_status = 1 then '已完成' else '未完成' end
+  - dwd_orders.order_date ← date(create_time)
+
+表 dwd_orders 的字段被以下下游使用:
+  - dws_customer_summary.user_id ← user_id
+  - dws_customer_summary.order_count ← count(*)
+  - dws_customer_summary.total_amount ← sum(order_amount)
+  - dws_customer_summary.avg_amount ← avg(order_amount)
+  - dws_product_summary.product_id ← product_id
+  - dws_product_summary.sales_count ← count(*)
+  - dws_product_summary.sales_amount ← sum(order_amount)

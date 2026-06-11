@@ -1,0 +1,6 @@
+source_table,target_table,layer
+ods_orders,dwd_orders,DWD (明细数据层)
+dwd_orders,dws_customer_summary,DWS (汇总数据层)
+dwd_orders,dws_product_summary,DWS (汇总数据层)
+dws_product_summary,ads_sales_report,ADS (应用数据层)
+dws_customer_summary,ads_sales_report,ADS (应用数据层)
